@@ -1,0 +1,14 @@
+#nombre{
+	margin: 2px;
+	color: #fff; 
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	font-weight: bold; 
+	font-size: 2em; 	
+}
+#nombre2{
+	margin: 2px;
+	color: #00a1ed; 
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	font-weight: bold; 
+	font-size: 2em; 	
+}

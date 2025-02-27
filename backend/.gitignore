@@ -1,0 +1,22 @@
+venv
+venv/*
+
+# Python
+*.py[cod]
+__pycache__/
+*.log
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.sqlite
+*.sqlite3-journal
+*.sqlite-journal
+*.db-journal
+
+db.sqlite3
+media/
+staticfiles/
+static/
+local_settings.py

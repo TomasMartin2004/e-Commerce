@@ -1,0 +1,27 @@
+# Ignorar entornos virtuales de Python
+backend/ecommerce/venv
+
+# Ignorar dependencias de Node.js
+frontend/E-commerce/node_modules
+
+# Ignorar archivos de configuración del editor y del sistema
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignorar archivos de compilación y caché
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+
+# Ignorar archivos de dependencias y compilaciones innecesarias
+backend/ecommerce/media/
+backend/ecommerce/static/
+
+# Ignorar archivos de Docker previos
+Dockerfile
+.dockerignore
