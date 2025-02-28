@@ -1,4 +1,25 @@
-# Imagen base con Python y Node.js
+FROM python:3.10
+
+RUN apt-get update && apt-get install -y nodejs npm
+
+RUN apt-get install -y procps && \
+    echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf && \
+    sysctl -p
+
+WORKDIR /app
+
+COPY backend/ecommerce /app/backend
+WORKDIR /app/backend
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+WORKDIR /app/frontend
+COPY frontend/E-commerce /app/frontend
+RUN npm install --force
+
+EXPOSE 8000 5173
+
+CMD ["sh", "-c", "cd /app/backend && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 & cd /app/frontend && npm run dev -- --host"]# Imagen base con Python y Node.js
 FROM python:3.10
 
 # Instalar Node.js y npm
