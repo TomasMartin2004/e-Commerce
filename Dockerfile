@@ -1,25 +1,4 @@
-FROM python:3.10
-
-RUN apt-get update && apt-get install -y nodejs npm
-
-RUN apt-get install -y procps && \
-    echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf && \
-    sysctl -p
-
-WORKDIR /app
-
-COPY backend/ecommerce /app/backend
-WORKDIR /app/backend
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-WORKDIR /app/frontend
-COPY frontend/E-commerce /app/frontend
-RUN npm install --force
-
-EXPOSE 8000 5173
-
-CMD ["sh", "-c", "cd /app/backend && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 & cd /app/frontend && npm run dev -- --host"]# Imagen base con Python y Node.js
+# Imagen base con Python y Node.js
 FROM python:3.10
 
 # Instalar Node.js y npm
@@ -38,9 +17,14 @@ RUN pip install -r requirements.txt
 WORKDIR /app/frontend
 COPY frontend/E-commerce /app/frontend
 RUN npm install --force
+RUN npm run build  # 🔥 Compilar el frontend
 
-# Exponer puertos (Django en 8000, React en 5173)
-EXPOSE 8000 5173
+# Mover el build de React al backend
+RUN mkdir -p /app/backend/static/frontend
+RUN cp -r /app/frontend/dist/* /app/backend/static/frontend/
 
-# Iniciar ambos servidores
-CMD ["sh", "-c", "cd /app/backend && python manage.py migrate && python manage.py runserver 0.0.0.0:8000 & cd /app/frontend && npm run dev -- --host"]
+# Exponer puertos (Django en 8000)
+EXPOSE 8000
+
+# Comando final: Migraciones y Gunicorn (sin StatReloader)
+CMD ["sh", "-c", "cd /app/backend && python manage.py migrate && gunicorn --bind 0.0.0.0:8000 ecommerce.wsgi:application"]
